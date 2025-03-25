@@ -1,12 +1,13 @@
 {
-  "name": "funding-sentiment",
+  "name": "funding-proxy",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "node-fetch": "^2.6.11"
+    "express": "^4.18.2",
+    "node-fetch": "^2.6.7"
   }
 }
