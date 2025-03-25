@@ -17,11 +17,17 @@ function interpret(rate) {
   return 'Neutral';
 }
 
-// Pobierz funding rate z Binance
 async function fetchFunding(symbol) {
   const url = `https://fapi.binance.com/fapi/v1/fundingRate?symbol=${symbol}&limit=1`;
   const response = await fetch(url);
+  console.log(`📦 Odpowiedź Binance dla ${symbol}:`, response.status);
+
   const data = await response.json();
+
+  if (!data || !Array.isArray(data) || data.length === 0 || data[0].fundingRate === undefined) {
+    throw new Error(`❌ Brak danych fundingRate dla ${symbol}`);
+  }
+
   return parseFloat(data[0].fundingRate);
 }
 
