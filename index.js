@@ -21,7 +21,7 @@ function interpret(rate) {
   return 'Neutral';
 }
 
-// Pobieranie funding rate
+// Pobierz funding rate
 async function fetchFunding(symbol) {
   const url = `https://fapi.binance.com/fapi/v1/fundingRate?symbol=${symbol}&limit=1`;
   const response = await fetch(url);
@@ -43,7 +43,7 @@ async function fetchFunding(symbol) {
   return parseFloat(data[0].fundingRate);
 }
 
-// Endpoint do uruchomienia skryptu
+// Główna logika API
 app.get('/', async (req, res) => {
   try {
     console.log('⏳ Pobieram dane z Binance...');
@@ -69,14 +69,18 @@ app.get('/', async (req, res) => {
       }
     };
 
-    // Zapisz dane do pliku
     const filePath = path.join(__dirname, 'market-condition.json');
     fs.writeFileSync(filePath, JSON.stringify(result, null, 2));
-    console.log('✅ Zapisano plik:', filePath);
 
-    // Zwróć JSON w odpowiedzi HTTP
+    console.log('✅ Dane zapisane do pliku:', filePath);
     res.json(result);
   } catch (err) {
     console.error('❌ Błąd podczas pobierania danych:', err.message);
     res.status(500).json({ error: err.message });
   }
+});
+
+// Start serwera
+app.listen(PORT, () => {
+  console.log(`🚀 Serwer działa na porcie ${PORT}`);
+});
