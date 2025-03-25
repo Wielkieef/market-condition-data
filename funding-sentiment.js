@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const fetch = require('node-fetch');
 
 // Używane symbole z Binance
@@ -31,7 +32,6 @@ async function run() {
 
     const btcRate = await fetchFunding(SYMBOLS.BTC);
     const ethRate = await fetchFunding(SYMBOLS.ETH);
-
     const altRates = await Promise.all(SYMBOLS.ALTCOINS.map(fetchFunding));
     const altAvg = altRates.reduce((sum, r) => sum + r, 0) / altRates.length;
 
@@ -53,9 +53,10 @@ async function run() {
 
     console.log('✅ Dane zinterpretowane:', result);
 
-    // Zapisz dane do JSON
-    fs.writeFileSync('market-condition.json', JSON.stringify(result, null, 2));
-    console.log('✅ Zapisano plik: market-condition.json');
+    // Absolutna ścieżka do zapisu
+    const filePath = path.join(__dirname, 'market-condition.json');
+    fs.writeFileSync(filePath, JSON.stringify(result, null, 2));
+    console.log('✅ Zapisano plik:', filePath);
 
   } catch (err) {
     console.error('❌ Błąd podczas pobierania danych:', err);
@@ -63,5 +64,4 @@ async function run() {
   }
 }
 
-// Start
 run();
