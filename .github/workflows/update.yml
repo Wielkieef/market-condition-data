@@ -3,7 +3,7 @@ name: Update Funding Sentiment
 on:
   schedule:
     - cron: '0 6 * * *'  # raz dziennie o 6:00 UTC
-  workflow_dispatch:      # możliwość odpalenia ręcznie
+  workflow_dispatch:      # pozwala uruchomić ręcznie
 
 jobs:
   update:
@@ -22,7 +22,10 @@ jobs:
       run: npm install node-fetch@2
 
     - name: Run funding script
-      run: node funding-sentiment.js
+      run: |
+        node funding-sentiment.js
+        echo "--- 📂 Lista plików po wykonaniu ---"
+        ls -la
 
     - name: Commit changes
       run: |
