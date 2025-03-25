@@ -1,0 +1,7 @@
+{
+  "name": "market-condition",
+  "type": "module",
+  "dependencies": {
+    "node-fetch": "^2.6.11"
+  }
+}
