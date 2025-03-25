@@ -24,8 +24,11 @@ async function fetchFunding(symbol) {
   return parseFloat(data[0].fundingRate);
 }
 
+// Główna funkcja
 async function run() {
   try {
+    console.log('⏳ Pobieram dane z Binance...');
+
     const btcRate = await fetchFunding(SYMBOLS.BTC);
     const ethRate = await fetchFunding(SYMBOLS.ETH);
 
@@ -48,11 +51,17 @@ async function run() {
       }
     };
 
+    console.log('✅ Dane zinterpretowane:', result);
+
+    // Zapisz dane do JSON
     fs.writeFileSync('market-condition.json', JSON.stringify(result, null, 2));
-    console.log('✅ Zapisano market-condition.json');
+    console.log('✅ Zapisano plik: market-condition.json');
+
   } catch (err) {
-    console.error('❌ Błąd pobierania danych:', err);
+    console.error('❌ Błąd podczas pobierania danych:', err);
+    process.exit(1);
   }
 }
 
+// Start
 run();
